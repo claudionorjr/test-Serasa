@@ -1,0 +1,11 @@
+{% if form.errors %} 
+    {% if form.errors.password %}
+        <div class="alert alert-danger text-center">
+            {{ form.errors.password }}
+        </div> 
+    {% elif form.errors.email %}
+        <div class="alert alert-danger text-center">
+            {{ form.errors.email }}
+        </div>    
+    {% endif %}    
+{% endif %} 
