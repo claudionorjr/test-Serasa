@@ -1,4 +1,5 @@
 from data.sql_alchemy import database
+import datetime
 
 class InvoiceModel(database.Model):
     __tablename__ = "invoices"
@@ -10,14 +11,6 @@ class InvoiceModel(database.Model):
     created_at = database.Column(database.DateTime, default=datetime.datetime.now())
 
 
-    def __init__(self,company_id, quantity):
+    def __str__(self,company_id, quantity):
         self.company_id = company_id
         self.quantity = quantity
-
-    def json(self):
-        return {
-            'id': self.id,
-            'company_id': self.company_id,
-            'quantity': quantity,
-            'created_at': str(self.created_at)
-        }
