@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %} Account {% endblock %}
+{% block content %}
+    <div style="margin: 3rem;">
+        <table class="table table-striped text-center">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center">
+                <td>{{ current_user.name }}</td>
+                <td>{{ current_user.email }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a type="button" href="{{ url_for('delete_confimation') }}" class="btn btn-danger mt-3">Delete</a>
+{% endblock %}

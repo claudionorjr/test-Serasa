@@ -1,6 +1,5 @@
 from data.sql_alchemy import database
 from flask_login import UserMixin
-from .file import FileModel
 import datetime
 
 class UserModel(database.Model, UserMixin):
@@ -12,8 +11,7 @@ class UserModel(database.Model, UserMixin):
     password = database.Column(database.String(80), nullable=False)
     email = database.Column(database.String(80), nullable=False, unique=True)
     created_at = database.Column(database.DateTime, default=datetime.datetime.now())
-    files = database.relationship('FileModel')
-
+    
 
     def __str__(self,name, password, email):
         self.name = name

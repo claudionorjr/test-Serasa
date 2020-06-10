@@ -1,7 +1,35 @@
 {% extends "base.html" %}
 {% block title %} Home {% endblock %}
 {% block content %}
-    <h3>ID => {{ current_user.id }}</h3>
-    <h3>Name => {{ current_user.name }}</h3>
-    <h3>Email => {{ current_user.email }}</h3>
+    <table class="table">
+        <caption>Lista de Empresas</caption>
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome da Empresa</th>
+            <th scope="col">Taxa de Risco(%)</th>
+            <th scope="col">Notas Fiscais</th>
+            <th scope="col">Débitos</th>
+            <th scope="col">Adicionar Arquivo</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for company in companies %}
+            <tr>
+                <td>{{company.id}}</td>
+                <td>{{company.company_name}}</td>
+                <td>{{company.risk_rating}}</td>
+                <td>{{company.invoices}}</td>
+                <td>{{company.debits}}</td>
+                <td>
+                    <div class="custom-file" style="max-width: 150px;">
+                        <input type="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile">Arquivo</label>
+                    </div>
+                </td>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
