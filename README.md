@@ -8,3 +8,5 @@
 - Linux = `source .ambvir/bin/activate`
 
 - pip install -r requirements\base.txt
+
+- python app.py

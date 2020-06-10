@@ -18,5 +18,6 @@ class DebitModel(database.Model):
         return {
             'id': self.id,
             'company_id': self.company_id,
-            'quantity': quantity
+            'quantity': quantity,
+            'created_at': str(self.created_at)
         }
