@@ -1,8 +1,11 @@
+import os
+import json
 from flask import Flask, render_template, redirect, request, url_for, flash
 from flask_login import LoginManager, login_required, login_user, logout_user
 from src.models.user import UserModel
 from src.models.company import CompanyModel
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config.from_pyfile('.env')
@@ -56,6 +59,40 @@ def register():
 def home():
     companies = CompanyModel.query.all()
     return render_template("home.html", companies=companies)
+
+@app.route('/current_user/uploader/<int:id>', methods = ['GET', 'POST'])
+@login_required
+def send_file(id):
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash('Parece que não tem arquivo!')
+            return redirect(url_for("home"))
+
+        f = request.files['file']
+        if f.filename == '':
+            flash('Não foi selecionado um arquivo!')
+            return redirect(url_for("home"))
+
+        filename = secure_filename(f.filename)
+        f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        with open(f"./data/uploads/{f.filename}", "r") as json_file:
+            dados = json.load(json_file)
+
+        print(dados['invoices'])
+        print(dados['debits'])
+        company = CompanyModel.query.filter_by(id=id).first()
+        #company.company_name = company_name
+        #company.risk_rating = risk_rating
+        company.invoices += dados['invoices']
+        company.debits += dados['debits']
+
+        db.session.add(company)
+        db.session.commit()
+
+        flash('Arquivo enviado com sucesso!')
+        return redirect(url_for("home"))
+
+    return render_template("home.html")
 
 @app.route("/current_user/account")
 @login_required
