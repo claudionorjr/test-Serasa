@@ -76,17 +76,12 @@ def send_file(id):
         filename = secure_filename(f.filename)
         f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         with open(f"./data/uploads/{f.filename}", "r") as json_file:
-            dados = json.load(json_file)
+            daties = json.load(json_file)
 
-        print(dados['invoices'])
-        print(dados['debits'])
         company = CompanyModel.query.filter_by(id=id).first()
-        #company.company_name = company_name
-        #company.risk_rating = risk_rating
-        company.invoices += dados['invoices']
-        company.debits += dados['debits']
+        result = CompanyModel.calculator_score(daties['invoices'], daties['debits'], company, daties)
 
-        db.session.add(company)
+        db.session.add(result)
         db.session.commit()
 
         flash('Arquivo enviado com sucesso!')
@@ -133,8 +128,8 @@ def new_company():
     if request.method == "POST":
         company = CompanyModel()
         company.company_name = request.form["company_name"]
-        company.debits = request.form["debits"]
-        company.invoices = request.form["invoices"]
+        company.invoices = 0
+        company.debits = 0
         db.session.add(company)
         db.session.commit()
 

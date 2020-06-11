@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block title %} Home {% endblock %}
 {% block content %}
-    <div >
-        <table class="table table-striped text-center">
+    <div class="mt-3">
+        <table class="table table-striped">
             <caption>Lista de Empresas</caption>
             <thead>
             <tr>
@@ -11,7 +11,7 @@
                 <th scope="col">Taxa de Risco(%)</th>
                 <th scope="col">Notas Fiscais</th>
                 <th scope="col">Débitos</th>
-                <th scope="col">Adicionar Arquivo</th>
+                <th scope="col">Arquivos</th>
             </tr>
             </thead>
             <tbody>
@@ -22,14 +22,14 @@
                     <td>{{company.risk_rating}}</td>
                     <td>{{company.invoices}}</td>
                     <td>{{company.debits}}</td>
-                    <td style="max-width: 250px;">
-                        <div class="custom-file">
-                            <form action="{{ url_for('send_file', id=company.id) }}" method="POST" enctype="multipart/form-data">
+                    <td>
+                        <form action="{{ url_for('send_file', id=company.id) }}" method="POST" enctype="multipart/form-data">
+                            <div class="custom-file " style="max-width: 150px;">
                                 <input type="file" name="file" class="custom-file-input">
-                                <label class="custom-file-label" for="customFile">Anexo</label>
-                                <input type="submit" href="url_for('home')" class="btn btn-success ml-3" value="Enviar"></input>
-                            </form>
-                        </div>
+                                <label class="custom-file-label text-left btn-sm" data-browse="">Escolher Arquivo</label>
+                            </div>
+                            <input type="submit" href="url_for('home')" class="btn btn-success btn-sm ml-2" value="Enviar">
+                        </form>
                     </td>
                     </td>
                 </tr>
