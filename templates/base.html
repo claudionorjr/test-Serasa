@@ -9,17 +9,17 @@
     </head>
 
     <body>
-        <div class="text-center">
-            {% include 'components/notifications.html' %}
-        </div>
-        <nav class="navbar navbar-dark" style="background-color: #53b42c;">
+        <nav class="navbar navbar-dark" style="background-color: #df4d96;">
             <a href="https://www.serasa.com.br/" target="_blank">
-                <img src="https://www.serasa.com.br/lno/static-webfiles/logo/serasa-white.svg" width="70" height="70">
+                <img src="https://www.serasa.com.br/lno/static-webfiles/logo/serasa-white.svg" width="60" height="60">
             </a>
             {% block navegation %}
                 {% include 'components/navigation_bar.html' %}
             {% endblock %}
         </nav>
+        <div class="text-center mt-1">
+            {% include 'components/notifications.html' %}
+        </div>
         <main class="container">
             {% block content %}
             {% endblock %}

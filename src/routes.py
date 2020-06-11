@@ -7,28 +7,28 @@ from werkzeug.utils import secure_filename
 from data.sql_alchemy import database as db
 from src.models.company import CompanyModel
 from src.models.user import UserModel
+from .forms import LoginForm
 
 
 def init_routes(app):
     @app.route("/", methods=["GET","POST"])
     def login():
-        if request.method == "POST":
-            email = request.form["email"]
-            password = request.form["password"]
-            user = UserModel.query.filter_by(email=email).first()
+        form = LoginForm()
+        if form.validate_on_submit():
+            user = UserModel.query.filter_by(email=form.email.data).first()
 
             if not user:
                 flash(message="Credênciais incorretas!", category="warning")
                 return redirect(url_for("login"))
 
-            if not check_password_hash(user.password, password):
+            if not check_password_hash(user.password, form.password.data):
                 flash(message="Credênciais incorretas!", category="warning")
                 return redirect(url_for("login"))
 
             login_user(user)
             return redirect(url_for("home"))
 
-        return render_template("login.html")
+        return render_template("login.html", form=form)
 
     @app.route("/register", methods=["GET","POST"])
     def register():
@@ -107,6 +107,18 @@ def init_routes(app):
 
         return redirect(url_for("login"))
 
+    @app.route("/current_user/company/delete/<int:id>")
+    @login_required
+    def delete_company(id):
+        company = CompanyModel.query.filter_by(id=id).first()
+        try:
+            db.session.delete(company)
+            db.session.commit()
+        except:
+            flash(message="Erro para deletar!", category="warning")
+
+        return redirect(url_for("home"))
+
     @app.route("/logout")
     @login_required
     def logout():
@@ -114,11 +126,6 @@ def init_routes(app):
 
         flash(message="Logout realizado!", category="success")
         return redirect(url_for("login"))
-
-    @app.route("/current_user/create_company")
-    @login_required
-    def form_add_company():
-        return render_template("new_company.html")
 
     @app.route("/current_user/create_company/new", methods=["GET","POST"])
     @login_required
@@ -135,6 +142,6 @@ def init_routes(app):
             except:
                 flash(message="Erro na criação, nome pode já existir!", category="warning")
 
-            return redirect(url_for("form_add_company"))
+            return redirect(url_for("home"))
 
-        return render_template("new_company.html")
+        return redirect(url_for("home"))
