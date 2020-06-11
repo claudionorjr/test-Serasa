@@ -79,7 +79,7 @@ def send_file(id):
             daties = json.load(json_file)
 
         company = CompanyModel.query.filter_by(id=id).first()
-        result = CompanyModel.calculator_score(daties['invoices'], daties['debits'], company, daties)
+        result = CompanyModel.calculator_score(daties['invoices'], daties['debits'], company)
 
         db.session.add(result)
         db.session.commit()

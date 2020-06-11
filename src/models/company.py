@@ -18,7 +18,7 @@ class CompanyModel(database.Model):
         self.invoices = invoices
         self.debits = debits
     
-    def calculator_score(inv, deb, comp, daties):
+    def calculator_score(inv, deb, comp):
         company = comp
         invoice = inv
         debit = deb
@@ -43,8 +43,8 @@ class CompanyModel(database.Model):
                 i += 1
                 result = result - ((result * 0.4) / 10)
 
-        company.invoices += daties['invoices']
-        company.debits += daties['debits']
+        company.invoices += invoice
+        company.debits += debit
         if result < 1:
             company.risk_rating = 1.0
 
