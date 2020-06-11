@@ -29,9 +29,9 @@ class CompanyModel(database.Model):
             while i <= invoice:
                 i += 1
                 result = result + ((result * 0.2) / 10)
-                while i <= debit:
-                    i += 1
-                    result = result - ((result * 0.4) / 10)
+            while i <= debit:
+                i += 1
+                result = result - ((result * 0.4) / 10)
 
         elif invoice > 0 and debit == 0:
             while i <= invoice:
