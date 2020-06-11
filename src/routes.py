@@ -18,11 +18,11 @@ def init_routes(app):
             user = UserModel.query.filter_by(email=email).first()
 
             if not user:
-                flash("Credênciais incorretas!")
+                flash(message="Credênciais incorretas!", category="warning")
                 return redirect(url_for("login"))
 
             if not check_password_hash(user.password, password):
-                flash("Credênciais incorretas!")
+                flash(message="Credênciais incorretas!", category="warning")
                 return redirect(url_for("login"))
 
             login_user(user)
@@ -40,9 +40,9 @@ def init_routes(app):
             try:
                 db.session.add(user)
                 db.session.commit()
-                flash("Usuário criado com sucesso!")
+                flash(message="Usuário criado com sucesso!", category="success")
             except:
-                flash("Erro na criação, email pode já existir!")
+                flash(message="Erro na criação, email pode já existir!", category="warning")
 
             return redirect(url_for("login"))
 
@@ -59,12 +59,12 @@ def init_routes(app):
     def send_file(id):
         if request.method == 'POST':
             if 'file' not in request.files:
-                flash('Parece que não tem arquivo!')
+                flash(message='Parece que não tem arquivo!', category="warning")
                 return redirect(url_for("home"))
 
             f = request.files['file']
             if f.filename == '':
-                flash('Não foi selecionado um arquivo!')
+                flash(message='Não foi selecionado um arquivo!', category="warning")
                 return redirect(url_for("home"))
 
             filename = secure_filename(f.filename)
@@ -77,9 +77,9 @@ def init_routes(app):
             try:
                 db.session.add(result)
                 db.session.commit()
-                flash('Arquivo enviado com sucesso!')
+                flash(message='Arquivo enviado com sucesso!', category="success")
             except:
-                flash("Ocorreu um erro para finalizar o envio ou formato incorreto!")
+                flash(message="Ocorreu um erro para finalizar o envio ou formato incorreto!", category="warning")
             return redirect(url_for("home"))
 
         return render_template("home.html")
@@ -103,7 +103,7 @@ def init_routes(app):
             db.session.commit()
             logout_user()
         except:
-            flash("Erro para deletar!")
+            flash(message="Erro para deletar!", category="warning")
 
         return redirect(url_for("login"))
 
@@ -112,7 +112,7 @@ def init_routes(app):
     def logout():
         logout_user()
 
-        flash("Logout realizado!")
+        flash(message="Logout realizado!", category="success")
         return redirect(url_for("login"))
 
     @app.route("/current_user/create_company")
@@ -131,9 +131,9 @@ def init_routes(app):
             try:
                 db.session.add(company)
                 db.session.commit()
-                flash("Empresa criada com sucesso!")
+                flash(message="Empresa criada com sucesso!", category="success")
             except:
-                flash("Erro na criação, nome pode já existir!")
+                flash(message="Erro na criação, nome pode já existir!", category="warning")
 
             return redirect(url_for("form_add_company"))
 

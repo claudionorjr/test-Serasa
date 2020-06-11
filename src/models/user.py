@@ -2,6 +2,7 @@ from data.sql_alchemy import database
 from flask_login import UserMixin
 import datetime
 
+
 class UserModel(database.Model, UserMixin):
     __tablename__ = "users"
 

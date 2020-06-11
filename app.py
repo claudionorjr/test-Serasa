@@ -3,6 +3,7 @@ from flask_login import LoginManager
 from src.models.user import UserModel
 from src.routes import init_routes
 
+
 app = Flask(__name__)
 app.config.from_pyfile('.env')
 login_manager = LoginManager(app)

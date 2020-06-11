@@ -1,6 +1,7 @@
 from data.sql_alchemy import database
 import math
 
+
 class CompanyModel(database.Model):
     __tablename__ = "companies"
 
