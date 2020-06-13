@@ -2,7 +2,7 @@
 
 ## Executando o programa em Linux/windows
 
-# LINUX
+### LINUX
 ***OBS***: Com MakeFile:
 
 - No terminal com o diretório do programa setado:
@@ -26,7 +26,7 @@
 - `python unittest tests/tests.py` (executa os testes unitários)
 
 
-# WINDOWS
+### WINDOWS
 
 - No terminal com o diretório do programa setado:
 
@@ -40,16 +40,18 @@
 
 ## Rotas 
 
-# Usuário não autenticado
+### Usuário não autenticado
 - url `http://127.0.0.1:5000/`
 
 ```python
+# Login
 @app.route("/", methods=["GET","POST"])
 
+# Register
 @app.route("/register", methods=["GET","POST"])
 ```
 
-# Usuário deve estar autenticado
+### Usuário deve estar autenticado
 ```python
 # Home
 @app.route("/current_user")
