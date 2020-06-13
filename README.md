@@ -7,41 +7,57 @@
 
 - No terminal com o diretório do programa setado:
 
-- `help` para mais informações.
-- `make installvirtualenv` serve para instalar o virtualenv.
-- `ambvir`serve para criar um ambiente virtual.
-- `start` serve para iniciar seu ambiente virtual. 
-- `install` serve para instalar todas as dependências necessárias. 
-- `run` executa o arquivo principal.
-- `test` executa os testes unitários.
+* `help` para mais informações.
+* `make installvirtualenv` serve para instalar o virtualenv.
+* `ambvir`serve para criar um ambiente virtual.
+* `start` serve para iniciar seu ambiente virtual. 
+* `install` serve para instalar todas as dependências necessárias. 
+* `run` executa o arquivo principal.
+* `test` executa os testes unitários.
 
 
 ***OBS***: Direto no terminal:
 
-- `sudo apt install virtualenv` (se ainda não tiver instalado)
-- `virtualenv .ambvir --python=python3.7` (instalar o virtualenv `.ambvir`)
-- `source .ambvir/bin/activate` (iniciar seu ambiente virtual)
-- `pip install -r requirements/base.txt` (instalar todas as dependências necessárias)
-- `python app.py` (executa o arquivo principal)
-- `python unittest tests/tests.py` (executa os testes unitários)
+* `sudo apt install virtualenv` (se ainda não tiver instalado)
+* `virtualenv .ambvir --python=python3.7` (instalar o virtualenv `.ambvir`)
+* `source .ambvir/bin/activate` (iniciar seu ambiente virtual)
+* `pip install -r requirements/base.txt` (instalar todas as dependências necessárias)
+* `python app.py` (executa o arquivo principal)
+* `python unittest tests/tests.py` (executa os testes unitários)
 
 
 ### WINDOWS
 
 - No terminal com o diretório do programa setado:
 
-- `pip install virtualenv` (se ainda não tiver instalado)
-- `virtualenv .ambvir --python=python3.7` (instalar o virtualenv `.ambvir`)
-- `.\.ambvir\Scripts\activate` (iniciar seu ambiente virtual)
-- `pip install -r requirements\base.txt` (instalar todas as dependências necessárias)
-- `python app.py` (executa o arquivo principal)
-- `python unittest tests/tests.py` (executa os testes unitários)
+* `pip install virtualenv` (se ainda não tiver instalado)
+* `virtualenv .ambvir --python=python3.7` (instalar o virtualenv `.ambvir`)
+* `.\.ambvir\Scripts\activate` (iniciar seu ambiente virtual)
+* `pip install -r requirements\base.txt` (instalar todas as dependências necessárias)
+* `python app.py` (executa o arquivo principal)
+* `python unittest tests/tests.py` (executa os testes unitários)
+
+
+## Sobre anexar o arquivo
+
+- Para o programa ler os dados a ser enviados, é necessário anexar um arquivo de estrutura `JSON`.
+- O arquivo modelo escontra-se no diretório raiz do sistema, chamado `relatório.json`.
+
+### Modelo
+```python
+{
+    "invoices": 2,
+    "debits": 0
+}
+```
+* invoices: Receberá a quantidade de notas fiscais.
+* debits: Receberá a quantidade de débitos.
 
 
 ## Rotas 
 
 ### Usuário não autenticado
-- url `http://127.0.0.1:5000/`
+* url `http://127.0.0.1:5000/`
 
 ```python
 # Login
