@@ -14,7 +14,7 @@ run:
 	python app.py
 
 test:
-	python -m unittest discover -p '*tests.py'
+	pytest -v
 
 help:
 	@printf "_______________________________________________________________________________________\n\n"
