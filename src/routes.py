@@ -7,7 +7,17 @@ from werkzeug.utils import secure_filename
 from data.sql_alchemy import database as db
 from src.models.company import CompanyModel
 from src.models.user import UserModel
-from .forms import LoginForm
+from .forms import LoginForm, RegisterForm
+from .calculate_score import calculator_score
+
+
+def session_to_add(obj):
+    db.session.add(obj)
+    db.session.commit()
+
+def session_to_delete(obj):
+    db.session.delete(obj)
+    db.session.commit()
 
 
 def init_routes(app):
@@ -18,11 +28,11 @@ def init_routes(app):
             user = UserModel.query.filter_by(email=form.email.data).first()
 
             if not user:
-                flash(message="Credênciais incorretas!", category="warning")
+                flash(message="Dados incorretos!", category="warning")
                 return redirect(url_for("login"))
 
             if not check_password_hash(user.password, form.password.data):
-                flash(message="Credênciais incorretas!", category="warning")
+                flash(message="Dados incorretos!", category="warning")
                 return redirect(url_for("login"))
 
             login_user(user)
@@ -32,21 +42,24 @@ def init_routes(app):
 
     @app.route("/register", methods=["GET","POST"])
     def register():
-        if request.method == "POST":
+        form = RegisterForm()
+        
+        if form.validate_on_submit():
             user = UserModel()
-            user.name = request.form["name"]
-            user.email = request.form["email"]
-            user.password = generate_password_hash(request.form["password"])
+            user.name = form.name.data
+            user.email = form.email.data
+            user.password = generate_password_hash(form.password.data)
+
             try:
-                db.session.add(user)
-                db.session.commit()
+                session_to_add(user)
                 flash(message="Usuário criado com sucesso!", category="success")
             except:
-                flash(message="Erro na criação, email pode já existir!", category="warning")
+                flash(message="Erro, email pode já existir!", category="warning")
+                return redirect(url_for("register"))
 
             return redirect(url_for("login"))
 
-        return render_template("register.html")
+        return render_template("register.html", form=form)
 
     @app.route("/current_user")
     @login_required
@@ -73,10 +86,9 @@ def init_routes(app):
                 daties = json.load(json_file)
 
             company = CompanyModel.query.filter_by(id=id).first()
-            result = CompanyModel.calculator_score(daties['invoices'], daties['debits'], company)
+            result = calculator_score(daties['invoices'], daties['debits'], company)
             try:
-                db.session.add(result)
-                db.session.commit()
+                session_to_add(result)
                 flash(message='Arquivo enviado com sucesso!', category="success")
             except:
                 flash(message="Ocorreu um erro para finalizar o envio ou formato incorreto!", category="warning")
@@ -99,8 +111,7 @@ def init_routes(app):
     def delete_user(id):
         user = UserModel.query.filter_by(id=id).first()
         try:
-            db.session.delete(user)
-            db.session.commit()
+            session_to_delete(user)
             logout_user()
         except:
             flash(message="Erro para deletar!", category="warning")
@@ -112,8 +123,7 @@ def init_routes(app):
     def delete_company(id):
         company = CompanyModel.query.filter_by(id=id).first()
         try:
-            db.session.delete(company)
-            db.session.commit()
+            session_to_delete(company)
         except:
             flash(message="Erro para deletar!", category="warning")
 
@@ -131,17 +141,24 @@ def init_routes(app):
     @login_required
     def new_company():
         if request.method == "POST":
+            name_company = request.form["company_name"]
             company = CompanyModel()
-            company.company_name = request.form["company_name"]
-            company.invoices = 0
-            company.debits = 0
-            try:
-                db.session.add(company)
-                db.session.commit()
-                flash(message="Empresa criada com sucesso!", category="success")
-            except:
-                flash(message="Erro na criação, nome pode já existir!", category="warning")
+            if name_company != '':
+                if not len(name_company) <= 5 or len(name_company) >= 80:
+                    company.company_name = name_company
+                    company.invoices = 0
+                    company.debits = 0
+                    try:
+                        session_to_add(company)
+                        flash(message="Empresa criada com sucesso!", category="success")
+                    except:
+                        flash(message="Erro, nome pode já existir!", category="warning")
+                        return redirect(url_for("home"))
 
-            return redirect(url_for("home"))
+                    return redirect(url_for("home"))
+                else:
+                    flash(message="Erro, Nome precisa conter entre '5' e '80' caracteres!", category="danger")
+            else:
+                flash(message="Erro, Nome de empresa inválida!", category="danger")
 
         return redirect(url_for("home"))
