@@ -107,28 +107,3 @@
 * bootstrap-flask
 * flask-login
 * pytest
-
-## Resultado dos testes
-
-´´´
-=================================== test session starts ===================================
-platform win32 -- Python 3.7.4, pytest-5.4.1, py-1.8.1, pluggy-0.13.1 -- c:\users\test-serasa\.ambvir\scripts\python.exe
-cachedir: .pytest_cache
-rootdir: C:\Users\test-Serasa
-collected 12 items
-
-tests/test_app.py::test_login_if_return_200 PASSED---------------------------------------------[  8%]
-tests/test_app.py::test_register_if_return_200 PASSED------------------------------------------[ 16%]
-tests/test_app.py::test_if_have_registrar PASSED-----------------------------------------------[ 25%]
-tests/test_app.py::test_if_have_logar PASSED---------------------------------------------------[ 33%]
-tests/test_app.py::test_register_user PASSED---------------------------------------------------[ 41%]
-tests/test_app.py::test_login_user PASSED------------------------------------------------------[ 50%]
-tests/test_app.py::test_if_route_home_is_blocked PASSED----------------------------------------[ 58%] 
-tests/test_app.py::test_if_route_account_is_blocked PASSED-------------------------------------[ 66%] 
-tests/test_app.py::test_if_route_confirme_delete_is_blocked PASSED-----------------------------[ 75%] 
-tests/test_app.py::test_if_route_user_delete_is_blocked PASSED---------------------------------[ 83%] 
-tests/test_app.py::test_if_route_company_delete_is_blocked PASSED------------------------------[ 91%] 
-tests/test_app.py::test_if_route_new_company_is_blocked PASSED---------------------------------[100%] 
-
-=================================== 12 passed in 1.94s ===================================
-```
