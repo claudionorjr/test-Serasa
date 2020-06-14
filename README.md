@@ -3,8 +3,8 @@
 ## Executando o programa em Linux/windows
 
 ### LINUX
-***OBS***: Com MakeFile:
 
+***OBS***: Com MakeFile:
 - No terminal com o diretório do programa setado:
 
 * `help` para mais informações.
@@ -15,8 +15,11 @@
 * `run` executa o arquivo principal.
 * `test` executa os testes unitários.
 
+- Depois é só acessar a rota `http://127.0.0.1:5000/`
+
 
 ***OBS***: Direto no terminal:
+- No terminal com o diretório do programa setado:
 
 * `sudo apt install virtualenv` (se ainda não tiver instalado)
 * `virtualenv .ambvir --python=python3.7` (instalar o virtualenv `.ambvir`)
@@ -25,9 +28,12 @@
 * `python app.py` (executa o arquivo principal)
 * `pytest -v` (executa os testes unitários)
 
+- Depois é só acessar a rota `http://127.0.0.1:5000/`
+
 
 ### WINDOWS
 
+***OBS***: Direto no terminal:
 - No terminal com o diretório do programa setado:
 
 * `pip install virtualenv` (se ainda não tiver instalado)
@@ -36,6 +42,8 @@
 * `pip install -r requirements\base.txt` (instalar todas as dependências necessárias)
 * `python app.py` (executa o arquivo principal)
 * `pytest -v` (executa os testes unitários)
+
+- Depois é só acessar a rota `http://127.0.0.1:5000/`
 
 
 ## Sobre anexar o arquivo

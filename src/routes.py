@@ -28,11 +28,11 @@ def init_routes(app):
             user = UserModel.query.filter_by(email=form.email.data).first()
 
             if not user:
-                flash(message="Erro, Dados incorretos!", category="warning")
+                flash(message="Erro, dados incorretos.", category="warning")
                 return redirect(url_for("login"))
 
             if not check_password_hash(user.password, form.password.data):
-                flash(message="Erro, Dados incorretos!", category="warning")
+                flash(message="Erro, dados incorretos.", category="warning")
                 return redirect(url_for("login"))
 
             login_user(user)
@@ -54,7 +54,7 @@ def init_routes(app):
                 session_to_add(user)
                 flash(message="Usuário criado com sucesso!", category="success")
             except:
-                flash(message="Erro, email pode já existir!", category="warning")
+                flash(message="Erro, email já cadastrado.", category="warning")
                 return redirect(url_for("register"))
 
             return redirect(url_for("login"))
@@ -72,12 +72,12 @@ def init_routes(app):
     def send_file(id):
         if request.method == 'POST':
             if 'file' not in request.files:
-                flash(message='Erro, Parece que não tem arquivo!', category="warning")
+                flash(message='Arquivo não existente.', category="danger")
                 return redirect(url_for("home"))
 
             f = request.files['file']
             if f.filename == '':
-                flash(message='Erro, Selecionado um arquivo inválido!', category="warning")
+                flash(message='Arquivo não existente.', category="danger")
                 return redirect(url_for("home"))
 
             filename = secure_filename(f.filename)
@@ -91,7 +91,7 @@ def init_routes(app):
                 session_to_add(result)
                 flash(message='Arquivo enviado com sucesso!', category="success")
             except:
-                flash(message="Ocorreu um erro para finalizar o envio ou formato incorreto!", category="warning")
+                flash(message="Ocorreu um erro no envio, tente novamente.", category="warning")
             return redirect(url_for("home"))
 
         return render_template("home.html")
@@ -114,7 +114,7 @@ def init_routes(app):
             session_to_delete(user)
             logout_user()
         except:
-            flash(message="Erro, em deletar!", category="warning")
+            flash(message="Erro ao deletar.", category="danger")
 
         return redirect(url_for("login"))
 
@@ -125,7 +125,7 @@ def init_routes(app):
         try:
             session_to_delete(company)
         except:
-            flash(message="Erro, em deletar!", category="warning")
+            flash(message="Erro ao deletar.", category="danger")
 
         return redirect(url_for("home"))
 
@@ -133,8 +133,6 @@ def init_routes(app):
     @login_required
     def logout():
         logout_user()
-
-        flash(message="Logout realizado!", category="success")
         return redirect(url_for("login"))
 
     @app.route("/current_user/create_company/new", methods=["GET","POST"])
@@ -152,13 +150,13 @@ def init_routes(app):
                         session_to_add(company)
                         flash(message="Empresa criada com sucesso!", category="success")
                     except:
-                        flash(message="Erro, Nome já existente!", category="warning")
+                        flash(message="Erro, nome já cadastrado.", category="warning")
                         return redirect(url_for("home"))
 
                     return redirect(url_for("home"))
                 else:
-                    flash(message="Erro, Nome de empresa deve conter de '5' até '80' caracteres!", category="danger")
+                    flash(message="Erro, nome da empresa deve conter entre 5 a 80 caracteres.", category="danger")
             else:
-                flash(message="Erro, Nome de empresa inválido!", category="danger")
+                flash(message="Erro, nome da empresa inválido.", category="danger")
 
         return redirect(url_for("home"))
